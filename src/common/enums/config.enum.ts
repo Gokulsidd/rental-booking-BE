@@ -2,7 +2,8 @@ export enum ConfigKey {
     APP = 'APP',
     DB = 'db',
     JWT = 'JWT',
-    GENERAL = 'GENERAL'
+    GENERAL = 'GENERAL',
+    AUTH = 'AUTH'
 }
 
 export enum Environment {
