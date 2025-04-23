@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user-dto";
 import { UsersService } from "./users.service";
 import { UpdateUserDto } from "./dto/update-user-dto";
-import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiHeader, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { JwtAuthGuard } from "../../../common/guards/auth.guard";
 
 @ApiTags("users")
 @Controller("users")
@@ -16,20 +17,22 @@ export class UsersController {
     async create(@Body() createUserDto: CreateUserDto) {
         return await this.usersService.create(createUserDto)
     }
-
+    
+    @UseGuards(JwtAuthGuard)
     @Get()
     @ApiOperation({ summary: 'Get all users' })
+    @ApiBearerAuth('access-token')
     @ApiResponse({ status: 200, description: 'List of users returned' })
     async findAll() {
         return await this.usersService.findAll();
     }
 
-    @Get(':PhoneNumber')
-    @ApiOperation({ summary: 'Get user by phone number' })
-    @ApiParam({ name: 'phoneNumber', example: '+919876543210' })  
-    @ApiResponse({ status: 200, description: 'User returned by phone number' })  
-    async findOne(@Param('phoneNumber') phoneNumber: string) {
-        return await this.usersService.findOne(phoneNumber);
+    @Get(':email')
+    @ApiOperation({ summary: 'Get user by email' })
+    @ApiParam({ name: 'email', example: 'john.doe@example.com' })  
+    @ApiResponse({ status: 200, description: 'User returned by email' })  
+    async findOne(@Param('email') email: string) {
+        return await this.usersService.findOne(email);
     }
 
     @Get(':id')

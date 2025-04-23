@@ -20,7 +20,7 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     const saltRounds = parseInt(this.configService.get('AUTH.saltRounds') || '');
-    const hashedPassword = await bcrypt.hash(createUserDto.phoneNumber, saltRounds)
+    const hashedPassword = await bcrypt.hash(createUserDto.password, saltRounds)
 
     const newUser = await this.userRepository.create({
       ...createUserDto,
@@ -34,8 +34,8 @@ export class UsersService {
     return await this.userRepository.find();
   }
 
-  async findOne(phoneNumber: string) {
-    return await this.userRepository.findOne({ where: { phoneNumber } });
+  async findOne(email: string) {
+    return await this.userRepository.findOne({ where: { email } });
   }
 
   async findOneById(id: string) {
