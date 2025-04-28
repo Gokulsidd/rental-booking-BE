@@ -7,7 +7,7 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [CustomConfigModule, DatabaseModule, UsersModule, AuthModule],
+  imports: [CustomConfigModule, DatabaseModule, AuthModule, UsersModule],
   controllers: [AppController],
   providers: [AppService],
 })
