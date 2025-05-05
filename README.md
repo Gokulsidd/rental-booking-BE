@@ -96,3 +96,180 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+```
+rental-booking-BE
+├─ .prettierrc
+├─ eslint.config.mjs
+├─ nest-cli.json
+├─ package-lock.json
+├─ package.json
+├─ README.md
+├─ src
+│  ├─ app
+│  ├─ app.module.ts
+│  ├─ common
+│  │  ├─ common.module.ts
+│  │  ├─ constants
+│  │  ├─ decorators
+│  │  ├─ enums
+│  │  │  └─ config.enum.ts
+│  │  ├─ guards
+│  │  ├─ middleware
+│  │  └─ utils
+│  ├─ config
+│  │  ├─ app.config.ts
+│  │  ├─ auth.config.ts
+│  │  ├─ config.module.ts
+│  │  └─ db.config.ts
+│  ├─ database
+│  │  ├─ database.module.ts
+│  │  ├─ entities
+│  │  ├─ migrations
+│  │  ├─ repositories
+│  │  └─ seeders
+│  ├─ main.ts
+│  ├─ modules
+│  │  ├─ auth
+│  │  │  ├─ auth.controller.ts
+│  │  │  ├─ auth.module.ts
+│  │  │  ├─ auth.service.ts
+│  │  │  ├─ dto
+│  │  │  └─ strategies
+│  │  └─ users
+│  │     ├─ dto
+│  │     ├─ entities
+│  │     ├─ interfaces
+│  │     ├─ users.controller.ts
+│  │     ├─ users.module.ts
+│  │     └─ users.service.ts
+│  └─ swagger
+│     ├─ swagger.config.ts
+│     └─ swagger.module.ts
+├─ test
+│  ├─ app.e2e-spec.ts
+│  └─ jest-e2e.json
+├─ tsconfig.build.json
+└─ tsconfig.json
+
+```
+```
+rental-booking-BE
+├─ .prettierrc
+├─ eslint.config.mjs
+├─ nest-cli.json
+├─ package-lock.json
+├─ package.json
+├─ README.md
+├─ src
+│  ├─ app
+│  │  ├─ app.controller.ts
+│  │  ├─ app.module.ts
+│  │  ├─ app.service.ts
+│  │  └─ modules
+│  │     ├─ auth
+│  │     │  ├─ auth.controller.ts
+│  │     │  ├─ auth.module.ts
+│  │     │  ├─ auth.service.ts
+│  │     │  ├─ dto
+│  │     │  └─ strategies
+│  │     └─ users
+│  │        ├─ dto
+│  │        ├─ entities
+│  │        ├─ interfaces
+│  │        ├─ users.controller.ts
+│  │        ├─ users.module.ts
+│  │        └─ users.service.ts
+│  ├─ common
+│  │  ├─ common.module.ts
+│  │  ├─ constants
+│  │  ├─ decorators
+│  │  ├─ enums
+│  │  │  └─ config.enum.ts
+│  │  ├─ guards
+│  │  ├─ interfaces
+│  │  │  └─ api-response.interface.ts
+│  │  ├─ middleware
+│  │  └─ utils
+│  ├─ config
+│  │  ├─ app.config.ts
+│  │  ├─ auth.config.ts
+│  │  ├─ config.module.ts
+│  │  └─ db.config.ts
+│  ├─ database
+│  │  ├─ database.module.ts
+│  │  ├─ entities
+│  │  │  └─ user.entity.ts
+│  │  └─ repositories
+│  │     └─ user.repository.ts
+│  ├─ main.ts
+│  └─ swagger
+│     ├─ swagger.config.ts
+│     └─ swagger.module.ts
+├─ test
+│  ├─ app.e2e-spec.ts
+│  └─ jest-e2e.json
+├─ tsconfig.build.json
+└─ tsconfig.json
+
+```
+```
+rental-booking-BE
+├─ .prettierrc
+├─ eslint.config.mjs
+├─ nest-cli.json
+├─ package-lock.json
+├─ package.json
+├─ README.md
+├─ src
+│  ├─ app
+│  │  ├─ app.controller.ts
+│  │  ├─ app.module.ts
+│  │  ├─ app.service.ts
+│  │  └─ modules
+│  │     ├─ auth
+│  │     │  ├─ auth.controller.ts
+│  │     │  ├─ auth.module.ts
+│  │     │  ├─ auth.service.ts
+│  │     │  ├─ dto
+│  │     │  └─ strategies
+│  │     └─ users
+│  │        ├─ dto
+│  │        ├─ entities
+│  │        ├─ interfaces
+│  │        ├─ users.controller.ts
+│  │        ├─ users.module.ts
+│  │        └─ users.service.ts
+│  ├─ common
+│  │  ├─ common.module.ts
+│  │  ├─ constants
+│  │  ├─ decorators
+│  │  ├─ enums
+│  │  │  └─ config.enum.ts
+│  │  ├─ guards
+│  │  ├─ interfaces
+│  │  │  └─ api-response.interface.ts
+│  │  ├─ middleware
+│  │  └─ utils
+│  ├─ config
+│  │  ├─ app.config.ts
+│  │  ├─ auth.config.ts
+│  │  ├─ config.module.ts
+│  │  └─ db.config.ts
+│  ├─ database
+│  │  ├─ database.module.ts
+│  │  ├─ entities
+│  │  │  └─ user.entity.ts
+│  │  └─ repositories
+│  │     └─ user.repository.ts
+│  ├─ main.ts
+│  └─ swagger
+│     ├─ swagger.config.ts
+│     └─ swagger.module.ts
+├─ test
+│  ├─ app.e2e-spec.ts
+│  └─ jest-e2e.json
+├─ tsconfig.build.json
+└─ tsconfig.json
+
+```
