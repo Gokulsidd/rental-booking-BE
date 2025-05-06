@@ -16,58 +16,45 @@ export class User {
 
   @Column()
   password: string;
-  
 
   @Column()
   phoneNumber: string;
 
   @Column()
-  email: string;
+  email: string; 
 
-  @Column({ nullable: true })
+  @Column({ type: 'int', nullable: true })
   houseOwnerId?: number;
 
-  @Column({ nullable: true })
+  @Column({ type: 'int', nullable: true })
   tenantId?: number;
 
   @Column({ default: false })
-  phoneVerified: boolean;
+  phoneNumberVerified: boolean;
 
   @Column({ default: false })
   emailVerified: boolean;
 
-  @Column({ default: 0 })
-  verificationAttempts: number;
+  @Column({ type: 'datetime', nullable: true })
+  reverficationTime?: Date;
 
-  @Column({ nullable: true })
-  phoneVerifiedAt?: Date;
+  @Column({ type: 'datetime', nullable: true })
+  phoneNumberVerifiedDate?: Date;
 
-  @Column({ nullable: true })
-  emailVerifiedAt?: Date;
+  @Column({ type: 'datetime', nullable: true })
+  emailIdVerifiedDate?: Date;
 
   @Column({ default: false })
   mandatoryVerification: boolean;
 
   @Column({ default: false })
-  reVerificationRequired: boolean;
+  reVerification: boolean; 
 
-  @Column({ nullable: true })
-  status?: string;
+  @CreateDateColumn()
+  createdDate: Date;
 
-  @Column({ default: 0 })
-  nonPaidContactViewed: number;
-
-  @Column({ default: 0 })
-  paidContactViewed: number;
-
-  @Column({ default: false })
-  isPaid: boolean;
-
-  @Column({ default: 0 })
-  nonPaidContactCount: number;
-
-  @Column({ nullable: true })
-  nonPaidContactList?: string;
+  @UpdateDateColumn()
+  modifiedDate: Date;
 
   @Column()
   createdBy: string;
@@ -75,9 +62,21 @@ export class User {
   @Column()
   modifiedBy: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @Column({ nullable: true })
+  status?: string;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @Column({ type: 'int', default: 0 })
+  nonPaidedContactViewed: number;
+
+  @Column({ type: 'int', default: 0 })
+  paidedContactViewed: number;
+
+  @Column({ default: false })
+  paided: boolean;
+
+  @Column({ type: 'int', default: 0 })
+  noOfNonPaidedContact: number;
+
+  @Column({ type: 'text', nullable: true })
+  nonPaidContactList?: string;
 }

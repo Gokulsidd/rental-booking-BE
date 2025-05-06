@@ -53,4 +53,14 @@ export class UsersService {
   async remove(id: string) {
     return await this.userRepository.delete({ id });
   }
+
+  async findByPhoneNumber(phoneNumber: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { phoneNumber } });
+  }
+  
+
+  async updateByEmail(email: string, updateData: Partial<User>): Promise<void> {
+    await this.userRepository.update({ email }, updateData);
+  }
+  
 }

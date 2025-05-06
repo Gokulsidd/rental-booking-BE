@@ -7,10 +7,7 @@ import {
   IsInt,
   MinLength,
 } from 'class-validator';
-import {
-  ApiProperty,
-  ApiPropertyOptional,
-} from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 
 export class CreateUserDto {
@@ -44,6 +41,20 @@ export class CreateUserDto {
   @Transform(({ value }) => value ?? null)
   tenantId?: number;
 
+  @IsOptional()
+  @ApiPropertyOptional({ default: false })
+  phoneNumberVerified?: boolean;
+  
+  
+  @IsOptional()
+  @ApiPropertyOptional({ default: false })
+  emailVerified?: boolean;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @Transform(({ value }) => value ?? null)
+  reverficationTime?: Date;
+
   @ApiPropertyOptional()
   @IsOptional()
   @Transform(({ value }) => value ?? null)
@@ -54,43 +65,70 @@ export class CreateUserDto {
   @Transform(({ value }) => value ?? null)
   emailIdVerifiedDate?: Date;
 
+  
+  @IsOptional()
+  @ApiPropertyOptional({ default: false })
+  mandatoryVerification?: boolean;
+
+  
+  @IsOptional()
+  @ApiPropertyOptional({ default: false })
+  reVerification?: boolean;
+
   @ApiPropertyOptional()
   @IsOptional()
+  @Transform(({ value }) => value ?? null)
+  createdDate?: Date;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @Transform(({ value }) => value ?? null)
+  modifiedDate?: Date;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value ?? null)
+  createdBy?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value ?? null)
+  modifiedBy?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
   @Transform(({ value }) => value ?? null)
   status?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
+  @IsInt()
+  @Transform(({ value }) => value ?? null)
+  nonPaidedContactViewed?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsInt()
+  @Transform(({ value }) => value ?? null)
+  paidedContactViewed?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @ApiPropertyOptional({ default: false })
+  paid?: boolean;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsInt()
+  @Transform(({ value }) => value ?? null)
+  noOfNonPaidedContact?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
   @Transform(({ value }) => value ?? null)
   nonPaidContactList?: string;
-
-  @ApiProperty()
-  @IsInt()
-  @Transform(({ value }) => value ?? null)
-  nonPaidContactViewed?: number;
-
-  @ApiProperty()
-  @IsInt()
-  @Transform(({ value }) => value ?? null)
-  paidContactViewed?: number;
-
-  @ApiProperty()
-  @IsBoolean()
-  @Transform(({ value }) => value ?? null)
-  isPaid?: boolean;
-
-  @ApiProperty()
-  @IsInt()
-  @Transform(({ value }) => value ?? null)
-  noOfNonPaidContact?: number;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  createdBy: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  modifiedBy: string;
 }

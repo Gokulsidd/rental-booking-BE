@@ -4,6 +4,8 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login-dto';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from '../users/dto/create-user-dto';
+import { VerifyEmailDto } from './dto/verify-email-dto';
+import { VerifyPhoneDto } from './dto/verify-phone-dto';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -56,6 +58,18 @@ export class AuthController {
     const user = await this.authService.validateUser(loginDto);
     return this.authService.login(user);
   }
+
+  
+@Post('verify-email')
+async verifyEmail(@Body() verifyEmailDto: VerifyEmailDto) {
+  return this.authService.verifyEmail(verifyEmailDto.email);
+}
+
+@Post('verify-phone')
+async verifyPhone(@Body() verifyPhoneDto: VerifyPhoneDto) {
+  return this.authService.verifyPhone(verifyPhoneDto.phoneNumber);
+}
+
 }
 
 

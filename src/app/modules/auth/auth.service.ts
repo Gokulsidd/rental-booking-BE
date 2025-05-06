@@ -62,19 +62,88 @@ export class AuthService {
       throw new ConflictException('User already exists with this email');
     }
    
-
+    const existingUserByPhone = await this.usersService.findByPhoneNumber(createUserDto.phoneNumber);
+    if (existingUserByPhone) {
+      throw new ConflictException('User already exists with this phone number');
+    }
     // Create the user
     await this.usersService.create(createUserDto);
     return { message: 'User created successfully' };
   }
 
-  // Login user and return JWT token
+  
+  
   async login(user: any) {
-    const payload = { sub: user.id, email: user.email };
+    console.log('Starting login process for:', user.email);
+  
+    const foundUser = await this.usersService.findOne(user.email);
+    if (!foundUser) {
+      console.log(`User not found: ${user.email}`);
+      throw new UnauthorizedException('Invalid credentials');
+    }
+  
+    // Check individual verification statuses
+    if (!foundUser.emailVerified && !foundUser.phoneNumberVerified) {
+      console.log('Both email and phone number are not verified');
+      throw new UnauthorizedException('Please verify both email and phone number.');
+    }
+  
+    if (!foundUser.emailVerified) {
+      console.log('Email is not verified');
+      throw new UnauthorizedException('Please verify your email.');
+    }
+  
+    if (!foundUser.phoneNumberVerified) {
+      console.log('Phone number is not verified');
+      throw new UnauthorizedException('Please verify your phone number.');
+    }
+  
+    // If both are verified
+    const payload = { sub: foundUser.id, email: foundUser.email };
     const access_token = this.jwtService.sign(payload, { expiresIn: '7d' });
-
-    return {
-      access_token,
-    };
+  
+    console.log(`Login successful for user: ${foundUser.email}`);
+    return { access_token };
   }
+  
+  
+  
+  
+  async verifyEmail(email: string): Promise<{ message: string }> {
+    console.log(`Attempting to verify email: ${email}`);
+  
+    const user = await this.usersService.findOne(email);
+    if (!user) {
+      console.log(`User with email ${email} not found`);
+      throw new UnauthorizedException('User not found');
+    }
+  
+    console.log(`User found: ${user.id}, setting emailVerified = true`);
+  
+    await this.usersService.updateByEmail(email, { emailVerified: true });
+  
+    console.log(`Email verification successful for ${email}`);
+  
+    return { message: 'Email verified successfully' };
+  }
+  
+  async verifyPhone(phoneNumber: string): Promise<{ message: string }> {
+    console.log(`Attempting to verify phone number: ${phoneNumber}`);
+  
+    const user = await this.usersService.findByPhoneNumber(phoneNumber);
+    if (!user) {
+      console.log(`User with phone number ${phoneNumber} not found`);
+      throw new UnauthorizedException('User not found');
+    }
+  
+    console.log(`User found: ${user.id}, setting phoneNumberVerified = true`);
+  
+    await this.usersService.updateByEmail(user.email, { phoneNumberVerified: true });
+  
+    console.log(`Phone number verification successful for ${phoneNumber}`);
+  
+    return { message: 'Phone number verified successfully' };
+  }
+  
+  
 }
