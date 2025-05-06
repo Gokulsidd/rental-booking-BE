@@ -18,7 +18,7 @@ export class UsersController {
         return await this.usersService.create(createUserDto)
     }
     
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get()
     @ApiOperation({ summary: 'Get all users' })
     @ApiBearerAuth('access-token')
