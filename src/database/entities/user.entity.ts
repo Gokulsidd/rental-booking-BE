@@ -62,8 +62,8 @@ export class User {
   @Column()
   modifiedBy: string;
 
-  @Column({ nullable: true })
-  status?: string;
+  @Column({ type: 'boolean', default: true })
+  status: boolean;
 
   @Column({ type: 'int', default: 0 })
   nonPaidedContactViewed: number;
@@ -72,7 +72,7 @@ export class User {
   paidedContactViewed: number;
 
   @Column({ default: false })
-  paided: boolean;
+  paid: boolean;
 
   @Column({ type: 'int', default: 0 })
   noOfNonPaidedContact: number;

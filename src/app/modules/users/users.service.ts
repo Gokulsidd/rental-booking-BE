@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable,BadRequestException, NotFoundException  } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import { Repository } from 'typeorm';
@@ -31,7 +31,7 @@ export class UsersService {
   }
 
   async findAll() {
-    return await this.userRepository.find();
+    return await this.userRepository.find({ where: { status: true } });
   }
 
   async findOne(email: string) {
@@ -42,17 +42,25 @@ export class UsersService {
     return await this.userRepository.findOne({ where: { id } });
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto ) {
-    const updatedUser = {
-        ...updateUserDto
+
+   async update(id: string, updateUserDto: UpdateUserDto) {
+      await this.userRepository.update(id, updateUserDto); 
+      return this.findOneById(id);
     }
 
-    return await this.userRepository.update(id, updatedUser)
-  }
-
-  async remove(id: string) {
-    return await this.userRepository.delete({ id });
-  }
+   async remove(id: string): Promise<boolean> {
+      if (!id) {
+        throw new BadRequestException('ID must be provided');
+      }
+  
+      const houseOwner = await this.userRepository.findOne({ where: { id, status: true } });
+      if (!houseOwner) {
+        throw new NotFoundException(`User with ID ${id} not found.`);
+      }
+  
+      const result = await this.userRepository.update(id, { status : false });
+      return (result.affected ?? 0) > 0;
+    }
 
   async findByPhoneNumber(phoneNumber: string): Promise<User | null> {
     return this.userRepository.findOne({ where: { phoneNumber } });

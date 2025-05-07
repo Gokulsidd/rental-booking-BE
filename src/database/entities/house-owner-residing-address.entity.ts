@@ -3,11 +3,8 @@ import { HouseOwner } from './house-owner.entity';
 
 @Entity()
 export class HouseOwnerResidingAddress {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  house_owner_id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ length: 255 })
   address1: string;
@@ -27,7 +24,13 @@ export class HouseOwnerResidingAddress {
   @Column({ length: 10, nullable: true })
   pincode: string;
 
-  @ManyToOne(() => HouseOwner, owner => owner.residing_addresses, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'house_owner_id' })
-  house_owner: HouseOwner;
+  @Column({ type: 'boolean', default: true })
+  status: boolean;
+ 
+  @Column()
+house_owner_id: string; 
+
+@ManyToOne(() => HouseOwner, owner => owner.residing_addresses, { onDelete: 'CASCADE' })
+@JoinColumn({ name: 'house_owner_id' })
+house_owner: HouseOwner;
 }

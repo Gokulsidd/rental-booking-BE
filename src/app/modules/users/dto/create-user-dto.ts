@@ -97,11 +97,11 @@ export class CreateUserDto {
   @Transform(({ value }) => value ?? null)
   modifiedBy?: string;
 
-  @ApiPropertyOptional()
+
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value ?? null)
-  status?: string;
+  @ApiPropertyOptional({ default: true })
+  status?: boolean;
 
   @ApiPropertyOptional()
   @IsOptional()

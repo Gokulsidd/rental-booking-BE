@@ -29,7 +29,7 @@ export class UsersController {
 
     @Get(':email')
     @ApiOperation({ summary: 'Get user by email' })
-    @ApiParam({ name: 'email', example: 'john.doe@example.com' })  
+    @ApiParam({ name: 'email', example: 'john.doe@gmail.com' })  
     @ApiResponse({ status: 200, description: 'User returned by email' })  
     async findOne(@Param('email') email: string) {
         return await this.usersService.findOne(email);
@@ -43,20 +43,22 @@ export class UsersController {
         return await this.usersService.findOneById(id)
     }
 
-    @Patch(':id')
-    @ApiOperation({ summary: 'Update user by ID' })
-    @ApiParam({ name: 'id', example: '1b1c0f92-xxxx-xxxx-xxxx' })
-    @ApiBody({ type: UpdateUserDto })
-    @ApiResponse({ status: 200, description: 'User updated successfully' })
-    async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-        return await this.usersService.update(id, updateUserDto )
-    }
+     @Patch(':id')
+     @ApiOperation({ summary: 'Update user by ID' })
+     @ApiParam({ name: 'id', example: '1b1c0f92-xxxx-xxxx-xxxx' })
+     @ApiBody({ type: UpdateUserDto })
+     @ApiResponse({ status: 200, description: 'user updated successfully' })
+     async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+     return await this.usersService.update(id, updateUserDto )
+     }
 
     @Delete(':id')
     @ApiOperation({ summary: 'Delete user by ID' })
     @ApiParam({ name: 'id', example: '1b1c0f92-xxxx-xxxx-xxxx' })
     @ApiResponse({ status: 200, description: 'User deleted successfully' })
-    async remove(@Param('id') id: string) {
+    async remove(@Param('id') id: string) : Promise<boolean> {
         return await this.usersService.remove(id)
     }
+
+   
 }

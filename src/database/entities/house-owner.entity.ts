@@ -6,8 +6,8 @@ import { PaymentForRent } from './payment-for-rent.entity';
 
 @Entity()
 export class HouseOwner {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ length: 100 })
   first_name: string;
@@ -39,8 +39,26 @@ export class HouseOwner {
   @Column({ length: 100, unique: true })
   email: string;
 
+  @Column({ length: 30, nullable: true })
+  address1: string;
+
+  @Column({ length: 30, nullable: true })
+  address2: string;
+
+  @Column({ length: 30, nullable: true })
+  city: string;
+
+  @Column({ length: 30, nullable: true })
+  district: string;
+
+  @Column({ length: 30, nullable: true })
+  state: string;
+
+  @Column({ length: 30, nullable: true })
+  pincode: string;
+
   @Column({ type: 'tinyint', width: 1, default: 0 })
-  has_residing_address: boolean;
+  residing_address: boolean;
 
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
@@ -52,15 +70,11 @@ export class HouseOwner {
   })
   updated_at: Date;
 
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
+
   @OneToMany(() => HouseOwnerResidingAddress, address => address.house_owner)
   residing_addresses: HouseOwnerResidingAddress[];
 
-  @OneToOne(() => User, user => user.house_owner)
-  user: User;
-
-  @OneToMany(() => RentalHouseDetails, rental => rental.house_owner)
-  rental_houses: RentalHouseDetails[];
-
-  @OneToMany(() => PaymentForRent, payment => payment.house_owner)
-  payments: PaymentForRent[];
+ 
 }
