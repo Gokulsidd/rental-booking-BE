@@ -44,8 +44,8 @@ export class HouseOwnerResidingAddressService {
           throw new BadRequestException('ID must be provided');
         }
     
-        const houseOwner = await this.addressRepo.findOne({ where: { id, status: true } });
-        if (!houseOwner) {
+        const residingAddress = await this.addressRepo.findOne({ where: { id, status: true } });
+        if (!residingAddress) {
           throw new NotFoundException(`User with ID ${id} not found.`);
         }
     

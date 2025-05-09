@@ -14,8 +14,8 @@ export class HouseOwnerResidingAddressController {
     @ApiOperation({ summary: 'create a new HouseOwnerResidingAddress'  })
     @ApiBody({ type: CreateHOAddressDto })
     @ApiResponse({ status: 201, description: 'HouseOwnerResidingAddress created successfully' })
-    async create(@Body() createUserDto: CreateHOAddressDto) {
-        return await this.HouseOwnerResidingAddressService.create(createUserDto)
+    async create(@Body() CreateHOAddressDto: CreateHOAddressDto) {
+        return await this.HouseOwnerResidingAddressService.create(CreateHOAddressDto)
     }
     
     
@@ -42,8 +42,8 @@ export class HouseOwnerResidingAddressController {
      @ApiParam({ name: 'id', example: '1b1c0f92-xxxx-xxxx-xxxx' })
      @ApiBody({ type: UpdateHOAddressDto })
      @ApiResponse({ status: 200, description: 'HouseOwnerResidingAddress updated successfully' })
-     async update(@Param('id') id: string, @Body() updateUserDto: UpdateHOAddressDto) {
-     return await this.HouseOwnerResidingAddressService.update(id, updateUserDto )
+     async update(@Param('id') id: string, @Body() updateHOADto: UpdateHOAddressDto) {
+     return await this.HouseOwnerResidingAddressService.update(id, updateHOADto )
      }
 
     @Delete(':id')

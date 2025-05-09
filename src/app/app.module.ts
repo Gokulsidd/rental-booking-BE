@@ -7,9 +7,11 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { HouseOwnerModule } from './modules/houseOwner/house-owner.module';
 import { HouseOwnerResidingAddressModule } from './modules/HouseOwnerResidingAddress/ho-residing-address.module';
+import { RentalHouseDetailsModule } from './modules/rentalHouseDetails/rental-house-details.module';
+import { SchemeModule } from './modules/scheme/scheme.module';
 
 @Module({
-  imports: [CustomConfigModule, DatabaseModule, AuthModule, UsersModule, HouseOwnerModule, HouseOwnerResidingAddressModule],
+  imports: [CustomConfigModule, DatabaseModule, AuthModule, UsersModule, HouseOwnerModule, HouseOwnerResidingAddressModule,RentalHouseDetailsModule,SchemeModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -4,8 +4,8 @@ import { PaymentForTenant } from './payment-for-tenant.entity';
 
 @Entity()
 export class Scheme {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ length: 100 })
   name: string;
@@ -19,11 +19,14 @@ export class Scheme {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   amount: number;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean',  default: 0 })
   for_rental_owner: boolean;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean',  default: 0 })
   for_tenant: boolean;
+
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
 
   @OneToMany(() => PaymentForRent, payment => payment.scheme)
   rent_payments: PaymentForRent[];

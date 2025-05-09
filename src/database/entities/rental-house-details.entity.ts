@@ -6,11 +6,8 @@ import { RentalsImage } from './rentals-image.entity';
 
 @Entity()
 export class RentalHouseDetails {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  house_owner_id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ length: 50, nullable: true })
   flat_no_or_door_no: string;
@@ -42,34 +39,34 @@ export class RentalHouseDetails {
   @Column({ length: 10, nullable: true })
   floor: string;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean', default: 0 })
   vasthu: boolean;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean',  default: 0 })
   corporation_water: boolean;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean',  default: 0 })
   bore_water: boolean;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean', default: 0 })
   separate_eb: boolean;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean',  default: 0 })
   two_wheeler_parking: boolean;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean',  default: 0 })
   four_wheeler_parking: boolean;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean', default: 0 })
   separate_house: boolean;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean',  default: 0 })
   owner_in_same_building: boolean;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean', default: 0 })
   rental_occupied: boolean;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean', default: 0 })
   apartment: boolean;
 
   @Column({ nullable: true })
@@ -81,22 +78,22 @@ export class RentalHouseDetails {
   @Column({ type: 'date', nullable: true })
   rent_to: Date;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean',  default: 0 })
   pets_allowed: boolean;
 
   @Column()
   bhk: number;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean', default: 0 })
   bachelor_allowed: boolean;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean', default: 0 })
   non_veg_allowed: boolean;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   deposit: number;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'boolean',  default: 0 })
   payment_active: boolean;
 
   @Column({ length: 20, nullable: true })
@@ -108,10 +105,16 @@ export class RentalHouseDetails {
   @Column({ length: 30, nullable: true })
   landline_number: string;
 
-  @ManyToOne(() => HouseOwner, owner => owner.rental_houses, { onDelete: 'CASCADE' })
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
+
+  @Column()
+  house_owner_id: string; 
+  
+  @ManyToOne(() => HouseOwner, owner => owner.residing_addresses, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'house_owner_id' })
   house_owner: HouseOwner;
-
+  
   @OneToMany(() => PaymentForRent, payment => payment.rental_house)
   rent_payments: PaymentForRent[];
 

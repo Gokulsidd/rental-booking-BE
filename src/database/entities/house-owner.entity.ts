@@ -1,8 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne } from 'typeorm';
 import { HouseOwnerResidingAddress } from './house-owner-residing-address.entity';
-import { RentalHouseDetails } from './rental-house-details.entity';
-import { User } from './user.entity';
-import { PaymentForRent } from './payment-for-rent.entity';
+
 
 @Entity()
 export class HouseOwner {
@@ -57,7 +55,7 @@ export class HouseOwner {
   @Column({ length: 30, nullable: true })
   pincode: string;
 
-  @Column({ type: 'tinyint', width: 1, default: 0 })
+  @Column({ type: 'tinyint', default: 0 })
   residing_address: boolean;
 
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
