@@ -5,10 +5,13 @@ import { HouseOwnerService } from "./house-owner.service";
 import { CreateHouseOwnerDto } from "./dto/house-owner-create.dto";
 import { UpdateHouseOwnerDto } from "./dto/house-owner-update.dto";
 
+@ApiBearerAuth('access-token')
+@UseGuards(JwtAuthGuard)
 @Controller('house-owner')
 export class HouseOwnerController {
   constructor(private readonly HouseOwnerService: HouseOwnerService) {}
 
+  
   @Post()
   @ApiOperation({ summary: 'create a new HouseOwner'  })
   @ApiBody({ type: CreateHouseOwnerDto })
@@ -17,7 +20,7 @@ export class HouseOwnerController {
   return await this.HouseOwnerService.create(CreateHouseOwnerDto)
   }
       
-  // @UseGuards(JwtAuthGuard)
+  
   @Get()
   @ApiOperation({ summary: 'Get all HouseOwners' })
   // @ApiBearerAuth('access-token')
@@ -26,6 +29,7 @@ export class HouseOwnerController {
   return await this.HouseOwnerService.findAll();
   }
  
+
   @Get(':id')
   @ApiOperation({ summary: 'Get HouseOwner owner by ID' })
   @ApiParam({ name: 'id', example: '1b1c0f92-xxxx-xxxx-xxxx' })
@@ -35,6 +39,7 @@ export class HouseOwnerController {
   }
 
 
+  
  @Patch(':id')
  @ApiOperation({ summary: 'Update HouseOwner by ID' })
  @ApiParam({ name: 'id', example: '1b1c0f92-xxxx-xxxx-xxxx' })
@@ -43,6 +48,7 @@ export class HouseOwnerController {
  async update(@Param('id') id: string, @Body() UpdateHouseOwnerDto: UpdateHouseOwnerDto) {
  return await this.HouseOwnerService.update(id, UpdateHouseOwnerDto )
  }
+
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete HouseOwner by ID (Soft Delete)' })

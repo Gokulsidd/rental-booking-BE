@@ -18,7 +18,7 @@ export class UsersController {
         return await this.usersService.create(createUserDto)
     }
     
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Get()
     @ApiOperation({ summary: 'Get all users' })
     @ApiBearerAuth('access-token')
@@ -27,6 +27,8 @@ export class UsersController {
         return await this.usersService.findAll();
     }
 
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth('access-token')
     @Get(':email')
     @ApiOperation({ summary: 'Get user by email' })
     @ApiParam({ name: 'email', example: 'john.doe@gmail.com' })  
@@ -35,6 +37,8 @@ export class UsersController {
         return await this.usersService.findOne(email);
     }
 
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth('access-token')
     @Get(':id')
     @ApiOperation({ summary: 'Get user by ID' })
     @ApiParam({ name: 'id', example: '1b1c0f92-xxxx-xxxx-xxxx' })
@@ -43,6 +47,8 @@ export class UsersController {
         return await this.usersService.findOneById(id)
     }
 
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth('access-token')
      @Patch(':id')
      @ApiOperation({ summary: 'Update user by ID' })
      @ApiParam({ name: 'id', example: '1b1c0f92-xxxx-xxxx-xxxx' })
@@ -52,6 +58,8 @@ export class UsersController {
      return await this.usersService.update(id, updateUserDto )
      }
 
+     @UseGuards(JwtAuthGuard)
+     @ApiBearerAuth('access-token')
     @Delete(':id')
     @ApiOperation({ summary: 'Delete user by ID' })
     @ApiParam({ name: 'id', example: '1b1c0f92-xxxx-xxxx-xxxx' })

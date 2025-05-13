@@ -35,11 +35,11 @@ export class UsersService {
   }
 
   async findOne(email: string) {
-    return await this.userRepository.findOne({ where: { email } });
+    return await this.userRepository.findOne({ where: { email, status: true } });
   }
 
   async findOneById(id: string) {
-    return await this.userRepository.findOne({ where: { id } });
+    return await this.userRepository.findOne({ where: { id , status: true} });
   }
 
 

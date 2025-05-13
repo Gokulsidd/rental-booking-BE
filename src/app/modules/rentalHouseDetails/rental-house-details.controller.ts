@@ -5,6 +5,9 @@ import { CreateRentalHouseDetailsDto } from "./dto/create-rental-house-details.d
 import { UpdateRentalHouseDetailsDto } from "./dto/update-rental-house-details.dto";
 import { RentalHouseDetailsService } from "./rental-house-details.service";
 
+
+@ApiBearerAuth('access-token')
+@UseGuards(JwtAuthGuard)
 @Controller('rental-house-details')
 export class RentalHouseDetailsController {
   constructor(private readonly RentalHouseDetailsService: RentalHouseDetailsService) {}

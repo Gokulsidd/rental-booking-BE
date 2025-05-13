@@ -5,9 +5,9 @@ import { Scheme } from './scheme.entity';
 
 @Entity()
 export class PaymentForRent {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+  
   @Column()
   house_owner_id: number;
 

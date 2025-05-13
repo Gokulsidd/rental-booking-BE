@@ -119,8 +119,10 @@ export class AuthService {
     }
   
     console.log(`User found: ${user.id}, setting emailVerified = true`);
+
+    const currentDate = new Date();
   
-    await this.usersService.updateByEmail(email, { emailVerified: true });
+    await this.usersService.updateByEmail(email, { emailVerified: true, emailIdVerifiedDate: currentDate });
   
     console.log(`Email verification successful for ${email}`);
   
@@ -137,8 +139,9 @@ export class AuthService {
     }
   
     console.log(`User found: ${user.id}, setting phoneNumberVerified = true`);
+    const currentDate = new Date();
   
-    await this.usersService.updateByEmail(user.email, { phoneNumberVerified: true });
+    await this.usersService.updateByEmail(user.email, { phoneNumberVerified: true, phoneNumberVerifiedDate:currentDate });
   
     console.log(`Phone number verification successful for ${phoneNumber}`);
   
