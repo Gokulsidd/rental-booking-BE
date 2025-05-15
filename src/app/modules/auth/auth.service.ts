@@ -4,12 +4,14 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login-dto';
 import { CreateUserDto } from '../users/dto/create-user-dto';
+import { EmailVerificationService } from '../email-verification/email-verification.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private readonly emailVerificationService: EmailVerificationService,
   ) {}
 
   // Hash password
@@ -67,7 +69,10 @@ export class AuthService {
       throw new ConflictException('User already exists with this phone number');
     }
     // Create the user
-    await this.usersService.create(createUserDto);
+    // await this.usersService.create(createUserDto);
+
+    const newUser = await this.usersService.create(createUserDto);
+    await this.emailVerificationService.sendRegistrationSuccessEmail(newUser.email, newUser.username);
     return { message: 'User created successfully' };
   }
 

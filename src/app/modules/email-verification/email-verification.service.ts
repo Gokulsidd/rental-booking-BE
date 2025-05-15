@@ -78,4 +78,19 @@ export class EmailVerificationService {
 
     return { message: 'Email verified successfully' };
   }
+
+  async sendRegistrationSuccessEmail(email: string, username: string): Promise<void> {
+    const templatePath = path.join(__dirname, 'templates', 'registration-success.template.html');
+  
+    const template = fs.readFileSync(templatePath, 'utf-8')
+      .replace('{{USERNAME}}', username);
+  
+    await transporter.sendMail({
+      from: `"Rental Booking" <${process.env.GMAIL_USER}>`,
+      to: email,
+      subject: 'Registration Successful',
+      html: template,
+    });
+  }
+  
 }

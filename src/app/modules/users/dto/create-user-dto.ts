@@ -6,6 +6,7 @@ import {
   IsBoolean,
   IsInt,
   MinLength,
+  IsUUID
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
@@ -29,8 +30,9 @@ export class CreateUserDto {
   @IsEmail()
   email: string;
 
-  @ApiPropertyOptional()
+  
   @IsOptional()
+  @IsUUID()
   @Transform(({ value }) => value ?? null)
   houseOwnerId?: string;
 

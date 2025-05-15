@@ -25,12 +25,12 @@ export class User {
   @Column()
   email: string; 
 
-  @ManyToOne(() => HouseOwner, houseOwner => houseOwner.users)
+  @ManyToOne(() => HouseOwner, (houseOwner) => houseOwner.users, { nullable: true })
   @JoinColumn({ name: 'houseOwnerId' })
-  houseOwner: HouseOwner;
-
+  houseOwner?: HouseOwner;
+  
   @Column({ nullable: true })
-  houseOwnerId: string;
+  houseOwnerId?: string;
 
   @Column({ type: 'int', nullable: true })
   tenantId?: number;

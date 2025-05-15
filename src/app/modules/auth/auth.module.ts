@@ -8,6 +8,7 @@ import { Module } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { JwtStrategy } from "./strategies/jwt.strategy";
 import { AuthController } from "./auth.controller";
+import { EmailVerificationModule } from "../email-verification/email-verification.module";
 
 @Module({
     imports: [
@@ -25,6 +26,7 @@ import { AuthController } from "./auth.controller";
           };
         },
       }),
+      EmailVerificationModule
     ],
     providers: [AuthService, JwtStrategy],
     controllers: [AuthController]
