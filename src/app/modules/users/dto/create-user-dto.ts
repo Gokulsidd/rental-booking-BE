@@ -31,9 +31,8 @@ export class CreateUserDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsInt()
   @Transform(({ value }) => value ?? null)
-  houseOwnerId?: number;
+  houseOwnerId?: string;
 
   @ApiPropertyOptional()
   @IsOptional()

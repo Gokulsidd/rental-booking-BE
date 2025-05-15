@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne } from 'typeorm';
 import { HouseOwnerResidingAddress } from './house-owner-residing-address.entity';
-
+import { User } from './user.entity';
 
 @Entity()
 export class HouseOwner {
@@ -74,5 +74,7 @@ export class HouseOwner {
   @OneToMany(() => HouseOwnerResidingAddress, address => address.house_owner)
   residing_addresses: HouseOwnerResidingAddress[];
 
+  @OneToMany(() => User, user => user.houseOwner)
+users: User[];
  
 }

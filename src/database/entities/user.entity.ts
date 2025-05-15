@@ -4,7 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+   ManyToOne, JoinColumn
 } from 'typeorm';
+import { HouseOwner } from './house-owner.entity';
 
 @Entity('user')
 export class User {
@@ -23,8 +25,12 @@ export class User {
   @Column()
   email: string; 
 
-  @Column({ type: 'int', nullable: true })
-  houseOwnerId?: number;
+  @ManyToOne(() => HouseOwner, houseOwner => houseOwner.users)
+  @JoinColumn({ name: 'houseOwnerId' })
+  houseOwner: HouseOwner;
+
+  @Column({ nullable: true })
+  houseOwnerId: string;
 
   @Column({ type: 'int', nullable: true })
   tenantId?: number;

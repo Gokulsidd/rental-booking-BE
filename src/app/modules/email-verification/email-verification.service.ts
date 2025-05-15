@@ -1,11 +1,14 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EmailVerification } from '../../../database/entities/email-verification.entity';
 import { Repository } from 'typeorm';
+import * as dayjs from 'dayjs';
+import { EmailVerification } from '../../../database/entities/email-verification.entity';
 import { SendEmailOtpDto } from './dto/send-email-otp.dto';
 import { VerifyEmailOtpDto } from './dto/verify-email-otp.dto';
 import { UsersService } from '../users/users.service';
-import * as dayjs from 'dayjs';
+import { transporter } from '../../../config/nodemailer.config';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class EmailVerificationService {
@@ -34,16 +37,24 @@ export class EmailVerificationService {
 
     await this.emailRepo.save(entity);
 
-    const template = process.env.EMAIL_TEMPLATE || '';
-    const emailBody = template
+    const templatePath = path.join(__dirname, 'templates', 'otp-email.template.html');
+    let template = fs.readFileSync(templatePath, 'utf-8');
+    template = template
       .replace('{{USERNAME}}', user.username)
       .replace('{{OTP}}', otp)
       .replace('{{EXPIRY}}', expiryMinutes.toString());
 
+    // Send mail with Nodemailer
+    await transporter.sendMail({
+      from: `"Rental Booking" <${process.env.GMAIL_USER}>`,
+      to: dto.email,
+      subject: 'Your OTP Code',
+      html: template,
+    });
+
     return {
-      message: 'OTP generated successfully',
+      message: 'OTP sent successfully',
       email: dto.email,
-      emailTemplatePreview: emailBody, 
     };
   }
 
@@ -53,17 +64,9 @@ export class EmailVerificationService {
       order: { expiresAt: 'DESC' },
     });
 
-    if (!record) {
-      throw new BadRequestException('No OTP found for this email');
-    }
-
-    if (record.otp !== dto.otp) {
-      throw new BadRequestException('Invalid OTP');
-    }
-
-    if (new Date() > record.expiresAt) {
-      throw new BadRequestException('OTP has expired');
-    }
+    if (!record) throw new BadRequestException('No OTP found for this email');
+    if (record.otp !== dto.otp) throw new BadRequestException('Invalid OTP');
+    if (new Date() > record.expiresAt) throw new BadRequestException('OTP has expired');
 
     record.status = 'VERIFIED';
     await this.emailRepo.save(record);

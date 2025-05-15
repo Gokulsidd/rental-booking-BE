@@ -4,12 +4,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateHouseOwnerDto } from './dto/house-owner-create.dto';
 import { UpdateHouseOwnerDto } from './dto/house-owner-update.dto';
 import { HouseOwner } from '../../../database/entities/house-owner.entity';
+import { User } from '../../../database/entities/user.entity';
 
 @Injectable()
 export class HouseOwnerService {
   constructor(
     @InjectRepository(HouseOwner)
     private houseOwnerRepo: Repository<HouseOwner>,
+    @InjectRepository(User)
+    private readonly userRepo: Repository<User>,
   ) {}
 
   async create(dto: CreateHouseOwnerDto) {
@@ -40,8 +43,22 @@ export class HouseOwnerService {
     }
   
     const houseOwner = this.houseOwnerRepo.create(dto);
-    return this.houseOwnerRepo.save(houseOwner);
+    const savedHouseOwner = await this.houseOwnerRepo.save(houseOwner);
+
+    // 👉 Update the user if emails match
+    if (dto.email) {
+      const user = await this.userRepo.findOne({ where: { email: dto.email } });
+      console.log('User found:', user);
+    
+      if (user) {
+        user.houseOwnerId = savedHouseOwner.id;
+        await this.userRepo.save(user);
+        console.log('User updated with houseOwnerId:', user.houseOwnerId);
+      }
+    }
+    return savedHouseOwner;
   }
+  
   
   
   findAll() {
