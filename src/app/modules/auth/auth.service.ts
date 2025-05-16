@@ -114,25 +114,25 @@ export class AuthService {
   
   
   
-  async verifyEmail(email: string): Promise<{ message: string }> {
-    console.log(`Attempting to verify email: ${email}`);
+  // async verifyEmail(email: string): Promise<{ message: string }> {
+  //   console.log(`Attempting to verify email: ${email}`);
   
-    const user = await this.usersService.findOne(email);
-    if (!user) {
-      console.log(`User with email ${email} not found`);
-      throw new UnauthorizedException('User not found');
-    }
+  //   const user = await this.usersService.findOne(email);
+  //   if (!user) {
+  //     console.log(`User with email ${email} not found`);
+  //     throw new UnauthorizedException('User not found');
+  //   }
   
-    console.log(`User found: ${user.id}, setting emailVerified = true`);
+  //   console.log(`User found: ${user.id}, setting emailVerified = true`);
 
-    const currentDate = new Date();
+  //   const currentDate = new Date();
   
-    await this.usersService.updateByEmail(email, { emailVerified: true, emailIdVerifiedDate: currentDate });
+  //   await this.usersService.updateByEmail(email, { emailVerified: true, emailIdVerifiedDate: currentDate });
   
-    console.log(`Email verification successful for ${email}`);
+  //   console.log(`Email verification successful for ${email}`);
   
-    return { message: 'Email verified successfully' };
-  }
+  //   return { message: 'Email verified successfully' };
+  // }
   
   async verifyPhone(phoneNumber: string): Promise<{ message: string }> {
     console.log(`Attempting to verify phone number: ${phoneNumber}`);

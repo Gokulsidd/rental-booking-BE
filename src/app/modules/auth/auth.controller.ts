@@ -60,10 +60,10 @@ export class AuthController {
   }
 
   
-@Post('verify-email')
-async verifyEmail(@Body() verifyEmailDto: VerifyEmailDto) {
-  return this.authService.verifyEmail(verifyEmailDto.email);
-}
+// @Post('verify-email')
+// async verifyEmail(@Body() verifyEmailDto: VerifyEmailDto) {
+//   return this.authService.verifyEmail(verifyEmailDto.email);
+// }
 
 @Post('verify-phone')
 async verifyPhone(@Body() verifyPhoneDto: VerifyPhoneDto) {
