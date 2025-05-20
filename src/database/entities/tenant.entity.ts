@@ -28,6 +28,6 @@ export class Tenant {
   })
   updated_at: Date;
 
-  @OneToOne(() => User, user => user.tenant)
+  @OneToOne(() => User, user => user.tenantId)
   user: User;
 }

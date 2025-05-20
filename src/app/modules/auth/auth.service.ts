@@ -103,6 +103,18 @@ export class AuthService {
       throw new UnauthorizedException('Please verify your phone number.');
     }
   
+    // Check for mandatory re-verification
+    if (foundUser.mandatoryVerification) {
+      console.log('Mandatory re-verification triggered');
+  
+      // Update both verifications to false
+      await this.usersService.update(foundUser.id, {
+        emailVerified: false,
+        phoneNumberVerified: false,
+      });
+  
+      throw new UnauthorizedException('Please reverify your email and phone number.');
+    }
     // If both are verified
     const payload = { sub: foundUser.id, email: foundUser.email };
     const access_token = this.jwtService.sign(payload, { expiresIn: '7d' });

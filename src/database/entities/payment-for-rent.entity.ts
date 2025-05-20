@@ -38,9 +38,9 @@ export class PaymentForRent {
   @Column({ type: 'datetime', nullable: true })
   payment_expiry: Date;
 
-  @ManyToOne(() => HouseOwner, owner => owner.payments, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'house_owner_id' })
-  house_owner: HouseOwner;
+  // @ManyToOne(() => HouseOwner, owner => owner.payments, { onDelete: 'CASCADE' })
+  // @JoinColumn({ name: 'house_owner_id' })
+  // house_owner: HouseOwner;
 
   @ManyToOne(() => RentalHouseDetails, rental => rental.rent_payments, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'rental_house_id' })
