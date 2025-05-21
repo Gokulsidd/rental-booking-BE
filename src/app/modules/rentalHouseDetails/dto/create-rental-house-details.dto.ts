@@ -30,7 +30,7 @@ export class CreateRentalHouseDetailsDto {
   @ApiPropertyOptional({ example: 'Palani Nagar' })
   @IsOptional()
   @IsString()
-  area_or_nagar?: string;
+  area?: string;
 
   @ApiPropertyOptional({ example: 'Palani' })
   @IsOptional()

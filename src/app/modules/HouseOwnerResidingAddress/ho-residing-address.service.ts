@@ -26,9 +26,9 @@ export class HouseOwnerResidingAddressService {
   
   
   async findAll() {
+    console.log('fetching active addresses');
     return await this.addressRepo.find({ where: { status: true } });
   }
-
 
   async findOneById(id: string) {
     return await this.addressRepo.findOne({ where: { id } });

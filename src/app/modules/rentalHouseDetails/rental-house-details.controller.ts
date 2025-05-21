@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards,Query,BadRequestException } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiHeader, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../../../common/guards/auth.guard";
 import { CreateRentalHouseDetailsDto } from "./dto/create-rental-house-details.dto";
@@ -6,8 +6,7 @@ import { UpdateRentalHouseDetailsDto } from "./dto/update-rental-house-details.d
 import { RentalHouseDetailsService } from "./rental-house-details.service";
 
 
-@ApiBearerAuth('access-token')
-@UseGuards(JwtAuthGuard)
+
 @Controller('rental-house-details')
 export class RentalHouseDetailsController {
   constructor(private readonly RentalHouseDetailsService: RentalHouseDetailsService) {}
@@ -53,6 +52,13 @@ export class RentalHouseDetailsController {
     async remove(@Param('id') id: string) : Promise<boolean> {
         return await this.RentalHouseDetailsService.remove(id)
     }
-
-   
+  
+    
+    @Post('search')
+    async searchRentalHouses(@Query('q') query: string) {
+      console.log('📢 Plain console.log: searchRentalHouses() triggered');
+      return this.RentalHouseDetailsService.search(query);
+    }
+ 
+    
 }

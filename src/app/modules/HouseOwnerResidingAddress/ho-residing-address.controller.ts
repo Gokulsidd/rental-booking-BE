@@ -5,6 +5,7 @@ import { HouseOwnerResidingAddressService } from "./ho-residing-address.service"
 import { ApiBearerAuth, ApiBody, ApiHeader, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../../../common/guards/auth.guard";
 
+
 @ApiBearerAuth('access-token')
 @UseGuards(JwtAuthGuard)
 @ApiTags('HouseOwner Residing Address')
@@ -21,7 +22,7 @@ export class HouseOwnerResidingAddressController {
     }
     
     
-    @Get()
+    @Get('all')
     @ApiOperation({ summary: 'Get all HouseOwnerResidingAddress' })
     @ApiResponse({ status: 200, description: 'List of HouseOwnerResidingAddress returned' })
     async findAll() {

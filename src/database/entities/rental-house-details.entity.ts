@@ -22,7 +22,7 @@ export class RentalHouseDetails {
   address3: string;
 
   @Column({ length: 100, nullable: true })
-  area_or_nagar: string;
+  area: string;
 
   @Column({ length: 100, nullable: true })
   city: string;
