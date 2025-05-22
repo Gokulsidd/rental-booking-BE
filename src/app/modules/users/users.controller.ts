@@ -28,24 +28,23 @@ export class UsersController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth('access-token')
-    @Get(':email')
-    @ApiOperation({ summary: 'Get user by email' })
-    @ApiParam({ name: 'email', example: 'john.doe@gmail.com' })  
-    @ApiResponse({ status: 200, description: 'User returned by email' })  
-    async findOne(@Param('email') email: string) {
-        return await this.usersService.findOne(email);
+     @ApiBearerAuth('access-token')
+    @Get('by-email/:email')
+    @ApiParam({ name: 'email', example: 'example@gmail.com' })
+    @ApiResponse({ status: 200, description: 'List of users returned' })
+    async findOneByEmail(@Param('email') email: string) {
+      return this.usersService.findOneByEmail(email);
     }
-
+    
     @UseGuards(JwtAuthGuard)
-    @ApiBearerAuth('access-token')
-    @Get(':id')
-    @ApiOperation({ summary: 'Get user by ID' })
+     @ApiBearerAuth('access-token')
+    @Get('by-id/:id')
     @ApiParam({ name: 'id', example: '1b1c0f92-xxxx-xxxx-xxxx' })
-    @ApiResponse({ status: 200, description: 'User returned by ID' })
+    @ApiResponse({ status: 200, description: 'user returned' })
     async findOneById(@Param('id') id: string) {
-        return await this.usersService.findOneById(id)
+      return this.usersService.findOneById(id);
     }
+    
 
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth('access-token')

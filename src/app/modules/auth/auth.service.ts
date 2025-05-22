@@ -31,7 +31,7 @@ export class AuthService {
     console.log('Validating user with email:', email);
 
     // Find user by email
-    const user = await this.usersService.findOne(email);
+    const user = await this.usersService.findOneByEmail(email);
     if (!user) {
       console.log(`No user found with email: ${email}`);
       throw new UnauthorizedException('Invalid credentials');
@@ -59,7 +59,7 @@ export class AuthService {
 
   // Register new user
   async register(createUserDto: CreateUserDto): Promise<{ message: string }> {
-    const existingUser = await this.usersService.findOne(createUserDto.email);
+    const existingUser = await this.usersService.findOneByEmail(createUserDto.email);
     if (existingUser) {
       throw new ConflictException('User already exists with this email');
     }
@@ -81,7 +81,7 @@ export class AuthService {
   async login(user: any) {
     console.log('Starting login process for:', user.email);
   
-    const foundUser = await this.usersService.findOne(user.email);
+    const foundUser = await this.usersService.findOneByEmail(user.email);
     if (!foundUser) {
       console.log(`User not found: ${user.email}`);
       throw new UnauthorizedException('Invalid credentials');

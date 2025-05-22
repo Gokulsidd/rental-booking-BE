@@ -23,7 +23,7 @@ export class EmailVerificationService {
     const expiryMinutes = Number(process.env.EMAIL_OTP_EXPIRY_MINUTES || 10);
     const expiry = dayjs().add(expiryMinutes, 'minute').toDate();
 
-    const user = await this.usersService.findOne(dto.email);
+    const user = await this.usersService.findOneByEmail(dto.email);
     if (!user) {
       throw new BadRequestException('User not found');
     }

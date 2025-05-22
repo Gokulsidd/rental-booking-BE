@@ -34,14 +34,14 @@ export class UsersService {
     return await this.userRepository.find({ where: { status: true } });
   }
 
-  async findOne(email: string) {
-    return await this.userRepository.findOne({ where: { email, status: true } });
+  async findOneByEmail(email: string) {
+    return this.userRepository.findOne({ where: { email, status: true } });
   }
-
+  
   async findOneById(id: string) {
-    return await this.userRepository.findOne({ where: { id , status: true} });
+    return this.userRepository.findOne({ where: { id, status: true } });
   }
-
+  
 
    async update(id: string, updateUserDto: UpdateUserDto) {
       await this.userRepository.update(id, updateUserDto); 

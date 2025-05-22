@@ -6,9 +6,9 @@ import {
   IsBoolean,
   IsInt,
   MinLength,
-  IsUUID
+  IsUUID,
 } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiHideProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 
 export class CreateUserDto {
@@ -19,7 +19,7 @@ export class CreateUserDto {
 
   @ApiProperty()
   @IsString()
-  @MinLength(8)
+  
   password: string;
 
   @ApiProperty()
@@ -30,104 +30,104 @@ export class CreateUserDto {
   @IsEmail()
   email: string;
 
-  
+  @ApiHideProperty()
   @IsOptional()
   @IsUUID()
   @Transform(({ value }) => value ?? null)
   houseOwnerId?: string;
 
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
   @IsInt()
   @Transform(({ value }) => value ?? null)
   tenantId?: number;
 
+  @ApiHideProperty()
   @IsOptional()
-  @ApiPropertyOptional({ default: false })
+  @IsBoolean()
   phoneNumberVerified?: boolean;
-  
-  
+
+  @ApiHideProperty()
   @IsOptional()
-  @ApiPropertyOptional({ default: false })
+  @IsBoolean()
   emailVerified?: boolean;
 
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
   @Transform(({ value }) => value ?? null)
   reverficationTime?: Date;
 
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
   @Transform(({ value }) => value ?? null)
   phoneNumberVerifiedDate?: Date;
 
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
   @Transform(({ value }) => value ?? null)
   emailIdVerifiedDate?: Date;
 
-  
+  @ApiHideProperty()
   @IsOptional()
-  @ApiPropertyOptional({ default: false })
+  @IsBoolean()
   mandatoryVerification?: boolean;
 
-  
+  @ApiHideProperty()
   @IsOptional()
-  @ApiPropertyOptional({ default: false })
+  @IsBoolean()
   reVerification?: boolean;
 
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
   @Transform(({ value }) => value ?? null)
   createdDate?: Date;
 
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
   @Transform(({ value }) => value ?? null)
   modifiedDate?: Date;
 
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value ?? null)
   createdBy?: string;
 
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value ?? null)
   modifiedBy?: string;
 
-
+  @ApiHideProperty()
   @IsOptional()
-  @IsString()
-  @ApiPropertyOptional({ default: true })
+  @IsBoolean()
   status?: boolean;
 
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
   @IsInt()
   @Transform(({ value }) => value ?? null)
   nonPaidedContactViewed?: number;
 
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
   @IsInt()
   @Transform(({ value }) => value ?? null)
   paidedContactViewed?: number;
 
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
-  @ApiPropertyOptional({ default: false })
+  @IsBoolean()
   paid?: boolean;
 
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
   @IsInt()
   @Transform(({ value }) => value ?? null)
   noOfNonPaidedContact?: number;
 
-  @ApiPropertyOptional()
+  @ApiHideProperty()
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value ?? null)

@@ -62,11 +62,12 @@ export class User {
   @UpdateDateColumn()
   modifiedDate: Date;
 
-  @Column()
-  createdBy: string;
+  @Column({ type: 'varchar', nullable: true })
+  createdBy?: string;
 
-  @Column()
-  modifiedBy: string;
+  @Column({ type: 'varchar', nullable: true })
+  modifiedBy?: string;
+  
 
   @Column({ type: 'boolean', default: true })
   status: boolean;
