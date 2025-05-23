@@ -15,7 +15,13 @@ export class RentalHouseViewedHistoryService{
     ) {}
 
     async create(dto: CreateRentalHouseViewedHistoryDto) {
-      const address = this.RHviewedHistoryRepo.create(dto);
+      const address = this.RHviewedHistoryRepo.create({
+        viewedTime: dto.viewedTime,
+        viewedDate: dto.viewedDate,
+        tenant: { id: dto.tenantId },            
+        rentalHouse: { id: dto.rentalHouseId },  
+        scheme: { id: dto.schemeId },  
+      });
     
       return this.RHviewedHistoryRepo.save(address);
     }

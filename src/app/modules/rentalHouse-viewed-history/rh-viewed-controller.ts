@@ -5,7 +5,8 @@ import { CreateRentalHouseViewedHistoryDto } from "./dto/create-rental-house-vie
 import { UpdateRentalHouseViewedHistoryDto } from "./dto/update-rental-house-viewed-history.dto";
 import { RentalHouseViewedHistoryService } from "../rentalHouse-viewed-history/rh-viewed-history.service";
 
-
+@ApiBearerAuth('access-token')
+@UseGuards(JwtAuthGuard)
 @Controller('rental-house-viewed-history')
 export class RentalHouseViewedHistoryController {
   constructor(private readonly RentalHouseViewedHistoryService: RentalHouseViewedHistoryService) {}
