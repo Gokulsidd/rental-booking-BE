@@ -1,33 +1,57 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne } from 'typeorm';
-import { User } from './user.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany
+} from 'typeorm';
+import { RentalHouseViewedHistory } from './rental-house-viewed-history.entity';
 
 @Entity()
 export class Tenant {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column({ length: 100 })
-  first_name: string;
+  @Column()
+  username: string;
 
-  @Column({ length: 100, nullable: true })
-  last_name: string;
-
-  @Column({ length: 20, nullable: true })
-  phone_number: string;
-
-  @Column({ length: 100, nullable: true })
+  @Column({ unique: true })
   email: string;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
-  created_at: Date;
+  @Column()
+  phoneNumber: string;
 
-  @Column({ 
-    type: 'datetime', 
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP' 
-  })
-  updated_at: Date;
+  @Column({ nullable: true })
+address1: string;
 
-  @OneToOne(() => User, user => user.tenantId)
-  user: User;
+@Column({ nullable: true })
+address2: string;
+
+@Column({ nullable: true })
+city: string;
+
+@Column({ nullable: true })
+district: string;
+
+@Column({ nullable: true })
+state: string;
+
+@Column({ nullable: true })
+pincode: string;
+
+
+  @Column()
+  schemeId: string;
+
+  @Column({ default: true }) 
+  status: boolean;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+
 }

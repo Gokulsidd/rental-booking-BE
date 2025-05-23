@@ -9,6 +9,7 @@ import { AuthService } from "./auth.service";
 import { JwtStrategy } from "./strategies/jwt.strategy";
 import { AuthController } from "./auth.controller";
 import { EmailVerificationModule } from "../email-verification/email-verification.module";
+import { TenantModule } from "../tenant/tenant.module";
 
 @Module({
     imports: [
@@ -26,7 +27,8 @@ import { EmailVerificationModule } from "../email-verification/email-verificatio
           };
         },
       }),
-      EmailVerificationModule
+      EmailVerificationModule,
+      TenantModule
     ],
     providers: [AuthService, JwtStrategy],
     controllers: [AuthController]

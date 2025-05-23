@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { PaymentForRent } from './payment-for-rent.entity';
 import { PaymentForTenant } from './payment-for-tenant.entity';
+import { RentalHouseViewedHistory } from './rental-house-viewed-history.entity';
 
 @Entity()
 export class Scheme {
@@ -33,4 +34,7 @@ export class Scheme {
 
   @OneToMany(() => PaymentForTenant, payment => payment.scheme)
   tenant_payments: PaymentForTenant[];
+
+
+
 }

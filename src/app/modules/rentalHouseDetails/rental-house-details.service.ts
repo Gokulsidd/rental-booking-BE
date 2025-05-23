@@ -46,7 +46,7 @@ export class RentalHouseDetailsService {
 
     const retalHouse = await this.rentalRepo.findOne({ where: { id, isActive: true } });
     if (!retalHouse) {
-      throw new NotFoundException(`CreateRentalHouseDetails with ID ${id} not found.`);
+      throw new NotFoundException(`RentalHouseDetails with ID ${id} not found.`);
     }
 
     const result = await this.rentalRepo.update(id, { isActive: false });

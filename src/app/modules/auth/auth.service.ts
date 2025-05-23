@@ -1,10 +1,12 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException,InternalServerErrorException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login-dto';
 import { CreateUserDto } from '../users/dto/create-user-dto';
 import { EmailVerificationService } from '../email-verification/email-verification.service';
+import { TenantService } from '../tenant/tenant.service';
+import { User } from '../../../database/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -12,6 +14,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private readonly emailVerificationService: EmailVerificationService,
+    private readonly TenantService:TenantService
   ) {}
 
   // Hash password
@@ -57,25 +60,73 @@ export class AuthService {
     return userWithoutPassword;
   }
 
-  // Register new user
+  // // Register new user
+  // async register(createUserDto: CreateUserDto): Promise<{ message: string }> {
+  //   const existingUser = await this.usersService.findOneByEmail(createUserDto.email);
+  //   if (existingUser) {
+  //     throw new ConflictException('User already exists with this email');
+  //   }
+   
+  //   const existingUserByPhone = await this.usersService.findByPhoneNumber(createUserDto.phoneNumber);
+  //   if (existingUserByPhone) {
+  //     throw new ConflictException('User already exists with this phone number');
+  //   }
+  //   // Create the user
+  //   // await this.usersService.create(createUserDto);
+
+  //   const newUser = await this.usersService.create(createUserDto);
+  //   await this.emailVerificationService.sendRegistrationSuccessEmail(newUser.email, newUser.username);
+  //   return { message: 'User created successfully' };
+  // }
+
+  
   async register(createUserDto: CreateUserDto): Promise<{ message: string }> {
     const existingUser = await this.usersService.findOneByEmail(createUserDto.email);
-    if (existingUser) {
+    if (existingUser && existingUser.status === true) {
       throw new ConflictException('User already exists with this email');
     }
-   
+  
     const existingUserByPhone = await this.usersService.findByPhoneNumber(createUserDto.phoneNumber);
-    if (existingUserByPhone) {
+    if (existingUserByPhone && existingUserByPhone.status === true)  {
       throw new ConflictException('User already exists with this phone number');
     }
-    // Create the user
-    // await this.usersService.create(createUserDto);
+  
+    let newUser: User | null = null;
+  
+    try {
+      // Separate schemeId from user data
+      const { schemeId,...userData } = createUserDto;
+  
+      // Create user without schemeId
+      newUser = await this.usersService.create(userData);
+  
+      
+    //  Create tenant
+    const tenant = await this.TenantService.create({
+      email: newUser.email,
+      username: newUser.username,
+      phoneNumber: newUser.phoneNumber,
+      schemeId: schemeId ?? '',
+      status: true,
 
-    const newUser = await this.usersService.create(createUserDto);
+    });
+
+    //  Update user with tenantId
+    await this.usersService.update(newUser.id, { tenantId: tenant.id });
+
+    // Send email
     await this.emailVerificationService.sendRegistrationSuccessEmail(newUser.email, newUser.username);
-    return { message: 'User created successfully' };
-  }
 
+  
+      return { message: 'User and tenant created successfully' };
+    } catch (error) {
+      // Rollback user creation if tenant creation or email fails
+      if (newUser) {
+        await this.usersService.remove(newUser.id);
+      }
+      throw new InternalServerErrorException(`Registration failed: ${error.message}`);
+    }
+  }
   
   
   async login(user: any) {
@@ -123,28 +174,6 @@ export class AuthService {
     return { access_token };
   }
   
-  
-  
-  
-  // async verifyEmail(email: string): Promise<{ message: string }> {
-  //   console.log(`Attempting to verify email: ${email}`);
-  
-  //   const user = await this.usersService.findOne(email);
-  //   if (!user) {
-  //     console.log(`User with email ${email} not found`);
-  //     throw new UnauthorizedException('User not found');
-  //   }
-  
-  //   console.log(`User found: ${user.id}, setting emailVerified = true`);
-
-  //   const currentDate = new Date();
-  
-  //   await this.usersService.updateByEmail(email, { emailVerified: true, emailIdVerifiedDate: currentDate });
-  
-  //   console.log(`Email verification successful for ${email}`);
-  
-  //   return { message: 'Email verified successfully' };
-  // }
   
   async verifyPhone(phoneNumber: string): Promise<{ message: string }> {
     console.log(`Attempting to verify phone number: ${phoneNumber}`);

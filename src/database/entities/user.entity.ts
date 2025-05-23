@@ -32,8 +32,8 @@ export class User {
   @Column({ nullable: true })
   houseOwnerId?: string;
 
-  @Column({ type: 'int', nullable: true })
-  tenantId?: number;
+  @Column({  nullable: true })
+  tenantId?: string;
 
   @Column({ default: false })
   phoneNumberVerified: boolean;

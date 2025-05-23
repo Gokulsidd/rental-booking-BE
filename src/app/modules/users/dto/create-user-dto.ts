@@ -40,7 +40,7 @@ export class CreateUserDto {
   @IsOptional()
   @IsInt()
   @Transform(({ value }) => value ?? null)
-  tenantId?: number;
+  tenantId?: string;
 
   @ApiHideProperty()
   @IsOptional()
@@ -132,4 +132,9 @@ export class CreateUserDto {
   @IsString()
   @Transform(({ value }) => value ?? null)
   nonPaidContactList?: string;
+
+  @IsOptional()
+  @IsString()
+  schemeId?: string;
+
 }

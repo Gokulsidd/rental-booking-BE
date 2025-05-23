@@ -3,6 +3,7 @@ import { HouseOwner } from './house-owner.entity';
 import { PaymentForRent } from './payment-for-rent.entity';
 import { PaymentForTenant } from './payment-for-tenant.entity';
 import { RentalsImage } from './rentals-image.entity';
+import { RentalHouseViewedHistory } from './rental-house-viewed-history.entity';
 
 @Entity()
 export class RentalHouseDetails {
@@ -123,4 +124,7 @@ export class RentalHouseDetails {
 
   @OneToMany(() => RentalsImage, image => image.rental_house)
   images: RentalsImage[];
+
+
+
 }

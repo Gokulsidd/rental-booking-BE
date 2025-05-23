@@ -10,9 +10,12 @@ import { HouseOwnerResidingAddressModule } from './modules/HouseOwnerResidingAdd
 import { RentalHouseDetailsModule } from './modules/rentalHouseDetails/rental-house-details.module';
 import { SchemeModule } from './modules/scheme/scheme.module';
 import { EmailVerificationModule } from './modules/email-verification/email-verification.module';
+import { TenantModule } from './modules/tenant/tenant.module';
+import { RentalHouseViewedHistoryModule } from './modules/rentalHouse-viewed-history/rh-viewed-module';
 
 @Module({
-  imports: [CustomConfigModule, DatabaseModule, AuthModule, UsersModule, HouseOwnerModule, HouseOwnerResidingAddressModule,RentalHouseDetailsModule,SchemeModule,EmailVerificationModule],
+  imports: [CustomConfigModule, DatabaseModule, AuthModule, UsersModule, HouseOwnerModule, HouseOwnerResidingAddressModule,RentalHouseDetailsModule,
+    SchemeModule, EmailVerificationModule, TenantModule, RentalHouseViewedHistoryModule],
   controllers: [AppController],
   providers: [AppService],
 })
