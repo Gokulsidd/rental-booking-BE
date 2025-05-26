@@ -137,4 +137,14 @@ export class CreateUserDto {
   @IsString()
   schemeId?: string;
 
+  @ApiHideProperty()
+  @IsOptional()
+  @Transform(({ value }) => value ?? null)
+  lastLoginTime?: Date;
+
+  @ApiHideProperty()
+  @IsOptional()
+  @Transform(({ value }) => value ?? null)
+  lastLoginDate?: Date;
+
 }

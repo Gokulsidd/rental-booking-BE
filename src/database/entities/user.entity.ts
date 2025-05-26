@@ -86,4 +86,10 @@ export class User {
 
   @Column({ type: 'text', nullable: true })
   nonPaidContactList?: string;
+
+  @Column({ type: 'datetime', nullable: true })
+  lastLoginTime?: Date;
+
+  @Column({ type: 'datetime', nullable: true })
+  lastLoginDate?: Date;
 }
