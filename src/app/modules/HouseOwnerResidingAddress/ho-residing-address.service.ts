@@ -4,13 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateHOAddressDto } from './dto/create-ho-residing-address.dto';
 import { UpdateHOAddressDto } from './dto/update-ho-residing-address.dto';
 import { HouseOwnerResidingAddress } from '../../../database/entities/house-owner-residing-address.entity';
-
+import { WinstonLoggerService } from '../../../logger/winston-logger.service';
 
 @Injectable()
 export class HouseOwnerResidingAddressService {
   constructor(
     @InjectRepository(HouseOwnerResidingAddress)
     private readonly addressRepo: Repository<HouseOwnerResidingAddress>,
+    private readonly logger: WinstonLoggerService
   ) {}
 
 
@@ -26,7 +27,7 @@ export class HouseOwnerResidingAddressService {
   
   
   async findAll() {
-    console.log('fetching active addresses');
+    this.logger.log('Fetching all active addresses');
     return await this.addressRepo.find({ where: { status: true } });
   }
 

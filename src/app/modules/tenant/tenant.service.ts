@@ -51,6 +51,12 @@ export class TenantService {
       return (result.affected ?? 0) > 0;
     }
  
+    async findOneWithScheme(id: string) {
+      return this.tenantRepo.findOne({
+        where: { id },
+        relations: ['scheme'], // Ensure scheme is a defined relation
+      });
+    }
   }
 
   

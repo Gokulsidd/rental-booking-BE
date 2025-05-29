@@ -6,7 +6,11 @@ import { LoginDto } from './dto/login-dto';
 import { CreateUserDto } from '../users/dto/create-user-dto';
 import { EmailVerificationService } from '../email-verification/email-verification.service';
 import { TenantService } from '../tenant/tenant.service';
+import { ConfigService } from '@nestjs/config';
 import { User } from '../../../database/entities/user.entity';
+import { SchemeService } from '../scheme/scheme.service';
+import { Scheme } from '../../../database/entities/scheme.entity';
+
 
 @Injectable()
 export class AuthService {
@@ -14,7 +18,9 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private readonly emailVerificationService: EmailVerificationService,
-    private readonly TenantService:TenantService
+    private readonly TenantService:TenantService,
+    private readonly configService: ConfigService,
+    private readonly schemeService: SchemeService
   ) {}
 
   // Hash password
@@ -65,45 +71,49 @@ export class AuthService {
   
   async register(createUserDto: CreateUserDto): Promise<{ message: string }> {
     const existingUser = await this.usersService.findOneByEmail(createUserDto.email);
-    if (existingUser && existingUser.status === true) {
+    if (existingUser?.status) {
       throw new ConflictException('User already exists with this email');
     }
   
     const existingUserByPhone = await this.usersService.findByPhoneNumber(createUserDto.phoneNumber);
-    if (existingUserByPhone && existingUserByPhone.status === true)  {
+    if (existingUserByPhone?.status) {
       throw new ConflictException('User already exists with this phone number');
     }
   
     let newUser: User | null = null;
   
     try {
-      // Separate schemeId from user data
-      const { schemeId,...userData } = createUserDto;
+      let { schemeId, ...userData } = createUserDto;
   
-      // Create user without schemeId
-      newUser = await this.usersService.create(userData);
+      // Use default scheme ID from environment if not provided
+      if (!schemeId) {
+        schemeId = this.configService.get<string>('DEFAULT_SCHEME_ID') || '4bfa5cb0-bb3e-49e1-8b5a-cf7e93218e95';
+      }
   
-      
-    //  Create tenant
-    const tenant = await this.TenantService.create({
-      email: newUser.email,
-      username: newUser.username,
-      phoneNumber: newUser.phoneNumber,
-      schemeId: schemeId ?? '',
-      status: true,
-
-    });
-
-    //  Update user with tenantId
-    await this.usersService.update(newUser.id, { tenantId: tenant.id });
-
-    // Send email
-    await this.emailVerificationService.sendRegistrationSuccessEmail(newUser.email, newUser.username);
-
+      // Create new user with schemeId
+      newUser = await this.usersService.create({
+        ...userData,
+        schemeId,
+      });
+  
+      // Create corresponding tenant
+      const tenant = await this.TenantService.create({
+        email: newUser.email,
+        username: newUser.username,
+        phoneNumber: newUser.phoneNumber,
+        schemeId,
+        status: true,
+      });
+  
+      // Link tenantId to user
+      await this.usersService.update(newUser.id, { tenantId: tenant.id });
+  
+      // Send registration success email
+      await this.emailVerificationService.sendRegistrationSuccessEmail(newUser.email, newUser.username);
   
       return { message: 'User and tenant created successfully' };
+  
     } catch (error) {
-      // Rollback user creation if tenant creation or email fails
       if (newUser) {
         await this.usersService.remove(newUser.id);
       }
@@ -149,23 +159,49 @@ export class AuthService {
   
       throw new UnauthorizedException('Please reverify your email and phone number.');
     }
-
-     //Update last login time and date
-  const now = new Date();
-  const loginTime = now;
-  const loginDate = new Date(now.toDateString()); // strips off the time component
-
-  await this.usersService.update(foundUser.id, {
-    lastLoginTime: loginTime,
-    lastLoginDate: loginDate,
-  });
-    // If both are verified
+  
+    // Update last login time and date
+    const now = new Date();
+    const loginTime = now;
+    const loginDate = new Date(now.toDateString()); // strips off the time component
+  
+    await this.usersService.update(foundUser.id, {
+      lastLoginTime: loginTime,
+      lastLoginDate: loginDate,
+    });
+  
+    // Prepare JWT payload
     const payload = { sub: foundUser.id, email: foundUser.email };
     const access_token = this.jwtService.sign(payload, { expiresIn: '7d' });
   
+    // Fetch tenant and scheme details
+    let scheme: Scheme | null = null;
+
+    if (foundUser.tenantId) {
+      const tenant = await this.TenantService.findOneWithScheme(foundUser.tenantId);
+    
+      if (tenant?.scheme && !tenant.scheme.scheme_expired) {
+  scheme = tenant.scheme;
+}
+ else {
+        console.log('Scheme is expired or not available');
+      }
+    }
+  
     console.log(`Login successful for user: ${foundUser.email}`);
-    return { access_token };
+  
+    return {
+      access_token,
+      user: {
+        id: foundUser.id,
+        email: foundUser.email,
+        username: foundUser.username,
+        tenantId: foundUser.tenantId,
+      },
+      scheme, // will be null if expired or not found
+    };
   }
+  
   
   
   async verifyPhone(phoneNumber: string): Promise<{ message: string }> {

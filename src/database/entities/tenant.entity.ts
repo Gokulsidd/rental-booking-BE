@@ -4,9 +4,12 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany
+  OneToMany,
+  ManyToOne,
+  JoinColumn
 } from 'typeorm';
 import { RentalHouseViewedHistory } from './rental-house-viewed-history.entity';
+import { Scheme } from './scheme.entity';
 
 @Entity()
 export class Tenant {
@@ -41,8 +44,6 @@ state: string;
 pincode: string;
 
 
-  @Column()
-  schemeId: string;
 
   @Column({ default: true }) 
   status: boolean;
@@ -52,6 +53,16 @@ pincode: string;
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToOne(() => Scheme)
+  @JoinColumn({ name: 'schemeId' })
+  scheme: Scheme;
+  
+
+@Column({ nullable: true })
+schemeId?: string;
+
+  
 
 
 }

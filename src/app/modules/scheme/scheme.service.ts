@@ -26,6 +26,13 @@ export class SchemeService {
    findOneById(id: string) {
      return this.schemeRepo.findOne({ where: { id, isActive: true } }); 
    }
+
+   async findOneByViewCount(viewCount: number): Promise<Scheme | null> {
+    return this.schemeRepo.findOne({
+      where: { viewCount, isActive: true },
+    });
+  }
+  
  
    async update(id: string, UpdateSchemeDto: UpdateSchemeDto) {
      await this.schemeRepo.update(id, UpdateSchemeDto); 

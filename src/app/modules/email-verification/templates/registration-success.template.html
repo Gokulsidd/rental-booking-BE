@@ -1,13 +1,47 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Welcome!</title>
+    <title>Welcome to Rental Booking</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333333;
+        margin: 0;
+        padding: 40px 20px;
+      }
+      .container {
+        background-color: #ffffff;
+        max-width: 600px;
+        margin: auto;
+        padding: 30px;
+        border-radius: 6px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      }
+      h2 {
+        color: #2c3e50;
+      }
+      p {
+        font-size: 16px;
+        line-height: 1.5;
+      }
+      .footer {
+        margin-top: 30px;
+        font-size: 14px;
+        color: #777777;
+      }
+    </style>
   </head>
   <body>
-    <h2>Hello {{USERNAME}},</h2>
-    <p>🎉 Welcome to Rental Booking!</p>
-    <p>Your registration was successful. You can now log in and start using our platform.</p>
-    <br />
-    <p>Regards,<br />The Rental Booking Team</p>
+    <div class="container">
+      <h2>Hello {{USERNAME}},</h2>
+      <p>Welcome to <strong>Rental Booking</strong>.</p>
+      <p>Your registration has been successfully completed. You may now log in to explore rental opportunities tailored to your needs.</p>
+      <p>We are committed to providing you with a seamless and secure rental experience.</p>
+      <p class="footer">
+        Best regards,<br />
+        The Rental Booking Team
+      </p>
+    </div>
   </body>
 </html>

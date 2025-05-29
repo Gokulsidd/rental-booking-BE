@@ -8,10 +8,18 @@ import helmet from 'helmet';
 
 
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { WinstonLoggerService } from './logger/winston-logger.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true, // ✅ Required to buffer logs before logger is fully initialized
+  });
   const configService = app.get(ConfigService);
+
+  const logger = app.get(WinstonLoggerService); // ✅ Get logger from DI
+
+  app.useLogger(logger); 
 
   app.setGlobalPrefix(`${configService.get(`${ConfigKey.APP}.apiPrefix`)}`);
   app.enableCors({ 
@@ -48,10 +56,10 @@ async function bootstrap() {
   await app.listen(port);
 
   
-  console.log(`Application running in ${isProduction ? 'production' : 'development'} mode`);
-  console.log(`Server started on ${await app.getUrl()}`);
+  logger.log(`Application running in ${isProduction ? 'production' : 'development'} mode`);
+  logger.log(`Server started on ${await app.getUrl()}`);
   if (!isProduction) {
-    console.log(`Swagger docs available at ${await app.getUrl()}/docs`);
+    logger.log(`Swagger docs available at ${await app.getUrl()}/docs`);
   }
 }
 

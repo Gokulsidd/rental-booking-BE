@@ -12,10 +12,11 @@ import { SchemeModule } from './modules/scheme/scheme.module';
 import { EmailVerificationModule } from './modules/email-verification/email-verification.module';
 import { TenantModule } from './modules/tenant/tenant.module';
 import { RentalHouseViewedHistoryModule } from './modules/rentalHouse-viewed-history/rh-viewed-module';
+import { LoggerModule } from '../logger/logger.module';
 
 @Module({
   imports: [CustomConfigModule, DatabaseModule, AuthModule, UsersModule, HouseOwnerModule, HouseOwnerResidingAddressModule,RentalHouseDetailsModule,
-    SchemeModule, EmailVerificationModule, TenantModule, RentalHouseViewedHistoryModule],
+    SchemeModule, EmailVerificationModule, TenantModule, RentalHouseViewedHistoryModule,LoggerModule],
   controllers: [AppController],
   providers: [AppService],
 })
