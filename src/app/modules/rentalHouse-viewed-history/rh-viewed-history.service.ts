@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateRentalHouseViewedHistoryDto } from './dto/create-rental-house-viewed-history.dto';
 import { RentalHouseViewedHistory } from '../../../database/entities/rental-house-viewed-history.entity';
 import { UpdateRentalHouseViewedHistoryDto } from './dto/update-rental-house-viewed-history.dto';
+import { WinstonLoggerService } from '../../../logger/winston-logger.service';
 
 
 
@@ -12,6 +13,7 @@ export class RentalHouseViewedHistoryService{
     constructor(
       @InjectRepository(RentalHouseViewedHistory)
       private RHviewedHistoryRepo: Repository<RentalHouseViewedHistory>,
+      private readonly logger: WinstonLoggerService
     ) {}
 
     async create(dto: CreateRentalHouseViewedHistoryDto) {

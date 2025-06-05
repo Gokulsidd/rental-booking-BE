@@ -1,14 +1,12 @@
 import { Injectable,BadRequestException, NotFoundException  } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import * as bcrypt from 'bcrypt';
-
 import { User } from '../../../database/entities/user.entity';
 import { CreateUserDto } from './dto/create-user-dto';
 import { UpdateUserDto } from './dto/update-user-dto';
+import { WinstonLoggerService } from '../../../logger/winston-logger.service';
 
 @Injectable()
 export class UsersService {
@@ -16,6 +14,8 @@ export class UsersService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly configService: ConfigService,
+    private readonly logger: WinstonLoggerService
+    
   ) {}
 
   async create(createUserDto: CreateUserDto) {

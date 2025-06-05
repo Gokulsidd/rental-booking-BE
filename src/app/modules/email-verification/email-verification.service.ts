@@ -9,6 +9,7 @@ import { UsersService } from '../users/users.service';
 import { transporter } from '../../../config/nodemailer.config';
 import * as fs from 'fs';
 import * as path from 'path';
+import { WinstonLoggerService } from '../../../logger/winston-logger.service';
 
 @Injectable()
 export class EmailVerificationService {
@@ -16,6 +17,7 @@ export class EmailVerificationService {
     @InjectRepository(EmailVerification)
     private readonly emailRepo: Repository<EmailVerification>,
     private readonly usersService: UsersService,
+    private readonly logger: WinstonLoggerService
   ) {}
 
   async sendOtp(dto: SendEmailOtpDto) {

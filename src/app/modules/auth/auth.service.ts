@@ -10,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import { User } from '../../../database/entities/user.entity';
 import { SchemeService } from '../scheme/scheme.service';
 import { Scheme } from '../../../database/entities/scheme.entity';
-
+import { WinstonLoggerService } from '../../../logger/winston-logger.service';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +20,8 @@ export class AuthService {
     private readonly emailVerificationService: EmailVerificationService,
     private readonly TenantService:TenantService,
     private readonly configService: ConfigService,
-    private readonly schemeService: SchemeService
+    private readonly schemeService: SchemeService,
+    private readonly logger: WinstonLoggerService
   ) {}
 
   // Hash password

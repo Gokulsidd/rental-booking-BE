@@ -5,6 +5,7 @@ import { CreateHouseOwnerDto } from './dto/house-owner-create.dto';
 import { UpdateHouseOwnerDto } from './dto/house-owner-update.dto';
 import { HouseOwner } from '../../../database/entities/house-owner.entity';
 import { User } from '../../../database/entities/user.entity';
+import { WinstonLoggerService } from '../../../logger/winston-logger.service';
 
 @Injectable()
 export class HouseOwnerService {
@@ -13,6 +14,7 @@ export class HouseOwnerService {
     private houseOwnerRepo: Repository<HouseOwner>,
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
+    private readonly logger: WinstonLoggerService
   ) {}
 
   async create(dto: CreateHouseOwnerDto) {

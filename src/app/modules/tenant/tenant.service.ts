@@ -5,12 +5,15 @@ import { CreateTenantDto } from './dto/create-tenant.dto';
 import { Tenant } from '../../../database/entities/tenant.entity';
 import { Like,Brackets } from 'typeorm';
 import { UpdateTenantDto } from './dto/update-tenant.dto';
+import { WinstonLoggerService } from '../../../logger/winston-logger.service';
+
 
 @Injectable()
 export class TenantService {
     constructor(
       @InjectRepository(Tenant)
       private tenantRepo: Repository<Tenant>,
+      private readonly logger: WinstonLoggerService
     ) {}
 
   async create(dto: CreateTenantDto) {

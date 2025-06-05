@@ -13,10 +13,11 @@ import { EmailVerificationModule } from './modules/email-verification/email-veri
 import { TenantModule } from './modules/tenant/tenant.module';
 import { RentalHouseViewedHistoryModule } from './modules/rentalHouse-viewed-history/rh-viewed-module';
 import { LoggerModule } from '../logger/logger.module';
+import { UserDisplayFieldsModule } from './modules/userDisplayFields/user-display-fields.module';
 
 @Module({
   imports: [CustomConfigModule, DatabaseModule, AuthModule, UsersModule, HouseOwnerModule, HouseOwnerResidingAddressModule,RentalHouseDetailsModule,
-    SchemeModule, EmailVerificationModule, TenantModule, RentalHouseViewedHistoryModule,LoggerModule],
+    SchemeModule, EmailVerificationModule, TenantModule, RentalHouseViewedHistoryModule,LoggerModule,UserDisplayFieldsModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -5,6 +5,7 @@ import { CreateRentalHouseDetailsDto } from './dto/create-rental-house-details.d
 import { UpdateRentalHouseDetailsDto } from './dto/update-rental-house-details.dto';
 import { RentalHouseDetails } from '../../../database/entities/rental-house-details.entity';
 import { Like,Brackets } from 'typeorm';
+import { WinstonLoggerService } from '../../../logger/winston-logger.service';
 
 
 @Injectable()
@@ -12,6 +13,7 @@ export class RentalHouseDetailsService {
     constructor(
       @InjectRepository(RentalHouseDetails)
       private rentalRepo: Repository<RentalHouseDetails>,
+      private readonly logger: WinstonLoggerService
     ) {}
 
   async create(dto: CreateRentalHouseDetailsDto) {

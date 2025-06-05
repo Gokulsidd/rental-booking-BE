@@ -5,9 +5,10 @@ import { HouseOwnerController } from "./house-owner.controller";
 import { HouseOwnerService } from "./house-owner.service";
 import { UsersModule } from "../users/users.module";
 import { User } from "../../../database/entities/user.entity";
+import { LoggerModule } from "../../../logger/logger.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([HouseOwner,User]),UsersModule],
+    imports: [TypeOrmModule.forFeature([HouseOwner,User]),UsersModule,LoggerModule],
     controllers: [HouseOwnerController],
     providers:[HouseOwnerService],
     exports: [HouseOwnerService]

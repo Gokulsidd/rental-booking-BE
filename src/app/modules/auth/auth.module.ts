@@ -11,12 +11,14 @@ import { AuthController } from "./auth.controller";
 import { EmailVerificationModule } from "../email-verification/email-verification.module";
 import { TenantModule } from "../tenant/tenant.module";
 import { SchemeModule } from "../scheme/scheme.module";
+import { LoggerModule } from "../../../logger/logger.module";
 
 @Module({
     imports: [
       ConfigModule.forRoot({ isGlobal: true, load: [authConfig] }), // Only needed once globally
       UsersModule,
       PassportModule,
+      LoggerModule,
       JwtModule.registerAsync({
         imports: [ConfigModule],
         inject: [ConfigService],

@@ -4,12 +4,15 @@ import { Repository } from 'typeorm';
 import {Scheme} from '../../../database/entities/scheme.entity';
 import { CreateSchemeDto } from './dto/create-scheme.dto';
 import { UpdateSchemeDto } from './dto/update-scheme.dto';
+import { WinstonLoggerService } from '../../../logger/winston-logger.service';
+
 
 @Injectable()
 export class SchemeService {
   constructor(
     @InjectRepository(Scheme)
     private readonly schemeRepo: Repository<Scheme>,
+    private readonly logger: WinstonLoggerService
   ) {}
 
   async create(dto: CreateSchemeDto) {
